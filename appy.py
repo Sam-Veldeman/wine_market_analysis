@@ -14,12 +14,11 @@ def query_highlight_10_wines(min_ratings, max_price):
     FROM vintages AS v
     JOIN wines AS w ON v.wine_id = w.id
     JOIN regions AS r ON w.region_id = r.id
-    WHERE (v.ratings_average >= ? AND v.price_euros < ? AND v.price_discounted_from IS NULL)
-        OR (v.ratings_average >= ? AND v.price_euros BETWEEN 20 AND ? AND v.ratings_count > 1000 AND v.year != 'N.V.' AND v.price_discounted_from IS NULL)
+    WHERE v.ratings_average >= ? AND v.price_euros < ? AND v.ratings_count > 1000 AND v.year != 'N.V.' AND v.price_discounted_from IS NULL
     ORDER BY v.price_euros
     LIMIT 10;
     """
-    return conn.execute(query, (min_ratings, max_price, min_ratings, max_price)).fetchall()
+    return conn.execute(query, (min_ratings, max_price)).fetchall()
 
 def query_wines_with_taste_keywords():
     query = """
