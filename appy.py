@@ -18,9 +18,7 @@ def query_highlight_10_wines(min_ratings, max_price, min_count):
     WHERE
         v.ratings_average >= ? AND v.price_euros <= ?  AND v.ratings_count > ? AND v.year != 'N.V.' AND v.price_discounted_from IS NULL
     ORDER BY
-        v.price_euros
-    LIMIT
-        10;
+        v.price_euros;
     """
     return conn.execute(query, (min_ratings, max_price, min_count)).fetchall()
 
@@ -132,7 +130,7 @@ def main():
         df['id'] = df['id'].apply(lambda x: int(x))
         df['year'] = df['year'].apply(lambda x: int(x) if isinstance(x, str) and x.isdigit() else x)
         fig = px.bar(df, x='vintage_name', y='ratings_average')
-        st.dataframe(df)
+        st.dataframe(df.head(10))
     elif query_option == "Wines with taste keywords":
         result = query_wines_with_taste_keywords()
          # Convert the result to a DataFrame
