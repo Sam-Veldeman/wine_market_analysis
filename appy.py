@@ -18,9 +18,7 @@ def query_highlight_10_wines(min_ratings, max_price):
     WHERE
         v.ratings_average >= ? AND v.price_euros <= ?
     ORDER BY
-        v.price_euros
-    LIMIT
-        10;
+        v.price_euros;
     """
     return conn.execute(query, (min_ratings, max_price)).fetchall()
 
