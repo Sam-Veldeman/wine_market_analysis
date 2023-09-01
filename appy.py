@@ -10,13 +10,18 @@ cursor = conn.cursor()
 # Query functions
 def query_highlight_10_wines(min_ratings, max_price):
     query = """
-    SELECT v.id, v.name AS vintage_name, v.ratings_average, v.year, v.price_euros, v.ratings_count, w.url
-    FROM vintages AS v
-    JOIN wines AS w ON v.wine_id = w.id
-    JOIN regions AS r ON w.region_id = r.id
-    WHERE v.ratings_average >= ? AND v.price_euros < ? AND v.ratings_count > 1000 AND v.year != 'N.V.' AND v.price_discounted_from IS NULL
-    ORDER BY v.price_euros
-    LIMIT 10;
+    SELECT
+        v.id, v.name AS vintage_name, v.ratings_average, v.year, v.price_euros, v.ratings_count, w.url
+    FROM
+        vintages AS v
+        JOIN wines AS w ON v.wine_id = w.id
+        JOIN regions AS r ON w.region_id = r.id
+    WHERE
+        v.ratings_average >= ? AND v.price_euros < ? AND v.ratings_count > 1000 AND v.year != 'N.V.' AND v.price_discounted_from IS NULL
+    ORDER BY
+        v.price_euros
+    LIMIT
+        10;
     """
     return conn.execute(query, (min_ratings, max_price)).fetchall()
 
@@ -123,6 +128,9 @@ def main():
         # Convert the result to a DataFrame and create a new Plotly visualization
         columns = ['id', 'vintage_name', 'ratings_average', 'year', 'price_euros', 'ratings_count', 'url']
         df = pd.DataFrame(result, columns=columns)
+        # Format the 'id' and 'year' columns as integers
+        df['id'] = df['id'].apply(lambda x: int(x))
+        df['year'] = df['year'].apply(lambda x: int(x) if x.isdigit() else x)
         st.markdown("""<p style='text-align: center; font-size: medium;'>This table is the selection of 10 wines to highlight and increase sales.</p>""", unsafe_allow_html=True)
         fig = px.bar(df, x='vintage_name', y='ratings_average')
         st.dataframe(df)
