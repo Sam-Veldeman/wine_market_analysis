@@ -119,7 +119,7 @@ def main():
     
     if query_option == "Highlight 10 wines":
         # Add sliders
-        min_count = st.slider('Minimum Ratings Count', min_value=0.0, max_value=50000.0, step=100.0, value=1000.0)
+        min_count = st.slider('Minimum Ratings Count', min_value=0.0, max_value=50000.0, step=100.0, value=30.0)
         min_ratings = st.slider('Minimum Ratings Average', min_value=0.0, max_value=5.0, step=0.1, value=4.0)
         max_price = st.slider('Maximum Price (Euros)', min_value=0, max_value=100, step=1, value=50)
         result = query_highlight_10_wines(min_ratings, max_price, min_count)
