@@ -8,7 +8,7 @@ conn = sqlite3.connect('./data/vivino.db')
 cursor = conn.cursor()
 
 # Query functions
-def query_highlight_10_wines(min_ratings, max_price):
+def query_highlight_10_wines(min_ratings, max_price, min_count):
     query = """
     SELECT
         v.id, v.name AS vintage_name, v.ratings_average, v.year, v.price_euros, v.ratings_count, w.url
@@ -16,11 +16,11 @@ def query_highlight_10_wines(min_ratings, max_price):
         vintages AS v
         JOIN wines AS w ON v.wine_id = w.id
     WHERE
-        v.ratings_average >= ? AND v.price_euros <= ?  AND v.ratings_count > 50 AND v.year != 'N.V.' AND v.price_discounted_from IS NULL
+        v.ratings_average >= ? AND v.price_euros <= ?  AND v.ratings_count > ? AND v.year != 'N.V.' AND v.price_discounted_from IS NULL
     ORDER BY
         v.price_euros;
     """
-    return conn.execute(query, (min_ratings, max_price)).fetchall()
+    return conn.execute(query, (min_ratings, max_price, min_count)).fetchall()
 
 def query_wines_with_taste_keywords():
     query = """
@@ -119,9 +119,10 @@ def main():
     
     if query_option == "Highlight 10 wines":
         # Add sliders
+        min_count = st.slider('Minimum Ratings Count', min_value=0.0, max_value=50000.0, step=100.0, value=1000.0)
         min_ratings = st.slider('Minimum Ratings Average', min_value=0.0, max_value=5.0, step=0.1, value=4.0)
         max_price = st.slider('Maximum Price (Euros)', min_value=0, max_value=100, step=1, value=50)
-        result = query_highlight_10_wines(min_ratings, max_price)
+        result = query_highlight_10_wines(min_ratings, max_price, min_count)
         # Convert the result to a DataFrame and create a new Plotly visualization
         columns = ['id', 'vintage_name', 'ratings_average', 'year', 'price_euros', 'ratings_count', 'url']
         df = pd.DataFrame(result, columns=columns)
