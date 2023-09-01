@@ -127,7 +127,7 @@ def main():
         columns = ['id', 'vintage_name', 'ratings_average', 'year', 'price_euros', 'ratings_count', 'url']
         df = pd.DataFrame(result, columns=columns)
         # Filter and display only 10 results based on sliders
-        filtered_df = df[df['ratings_count'] >= count]
+        filtered_df = df[df['ratings_count'] >= min_count]
         filtered_df = filtered_df[filtered_df['ratings_average'] >= min_ratings]
         filtered_df = filtered_df[filtered_df['price_euros'] <= max_price]
         # Format the 'id' and 'year' columns as integers
