@@ -16,7 +16,7 @@ def query_highlight_10_wines(min_ratings, max_price):
         vintages AS v
         JOIN wines AS w ON v.wine_id = w.id
     WHERE
-        v.ratings_average >= ? AND v.price_euros <= ?
+        v.ratings_average >= ? AND v.price_euros <= ?  AND v.ratings_count > 100 AND v.year != 'N.V.' AND v.price_discounted_from IS NULL
     ORDER BY
         v.price_euros;
     """
