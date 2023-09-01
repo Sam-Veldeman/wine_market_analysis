@@ -4,7 +4,7 @@ import plotly.express as px
 import streamlit as st
 
 # Connect to the SQLite database
-conn = sqlite3.connect(r'../data/vivino.db')
+conn = sqlite3.connect('../data/vivino.db')
 cursor = conn.cursor()
 
 # Query functions
