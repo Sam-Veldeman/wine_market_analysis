@@ -4,7 +4,7 @@ import plotly.express as px
 import streamlit as st
 
 # Connect to the SQLite database
-conn = sqlite3.connect('../data/vivino.db')
+conn = sqlite3.connect('/data/vivino.db')
 cursor = conn.cursor()
 
 # Query functions
@@ -162,11 +162,11 @@ def main():
         st.plotly_chart(fig4, use_container_width=True)
     elif query_option == "Country Leaderboards":
         st.header("Country Leaderboards")
-        image_path = r'../output/CountryLeaderboard.png'
+        image_path = '/output/CountryLeaderboard.png'
         st.image(image_path, use_column_width=True)
     elif query_option == "Focus on Argentina":
         st.header("Country Leaderboards")
-        image_path = r'../output/FocusOnArgentina.png'
+        image_path = '/output/FocusOnArgentina.png'
         st.image(image_path, use_column_width=True)
     # Small text at the bottom
     st.markdown("""<p style='text-align: right; font-size: small;'>By César, Fré and Sam</p>""", unsafe_allow_html=True)
