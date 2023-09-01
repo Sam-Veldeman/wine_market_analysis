@@ -2,6 +2,7 @@ import sqlite3
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+import functools
 
 # Connect to the SQLite database
 conn = sqlite3.connect('./data/vivino.db')
@@ -109,6 +110,7 @@ def query_top5_wines_cabernet_sauvignon():
     return conn.execute(query).fetchall()
 
 # Streamlit app
+@st.cache
 def main():
     st.set_page_config(page_title='Vivino market analysis', page_icon=':wine_glass:', layout='wide')
     # Title
