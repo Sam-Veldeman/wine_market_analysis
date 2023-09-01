@@ -17,7 +17,7 @@ def query_highlight_10_wines(min_ratings, max_price):
         JOIN wines AS w ON v.wine_id = w.id
         JOIN regions AS r ON w.region_id = r.id
     WHERE
-        v.ratings_average >= ? AND v.price_euros < ? AND v.ratings_count > 100 AND v.year != 'N.V.' AND v.price_discounted_from IS NULL
+        v.ratings_average >= ? AND v.price_euros <= ?
     ORDER BY
         v.price_euros
     LIMIT
