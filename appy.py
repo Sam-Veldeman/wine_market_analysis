@@ -130,8 +130,7 @@ def main():
         df = pd.DataFrame(result, columns=columns)
         # Format the 'id' and 'year' columns as integers
         df['id'] = df['id'].apply(lambda x: int(x))
-        df['year'] = df['year'].apply(lambda x: int(x) if x.isdigit() else x)
-        st.markdown("""<p style='text-align: center; font-size: medium;'>This table is the selection of 10 wines to highlight and increase sales.</p>""", unsafe_allow_html=True)
+        df['year'] = df['year'].apply(lambda x: int(x) if isinstance(x, str) and x.isdigit() else x)
         fig = px.bar(df, x='vintage_name', y='ratings_average')
         st.dataframe(df)
     elif query_option == "Wines with taste keywords":
