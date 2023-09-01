@@ -126,11 +126,15 @@ def main():
         # Convert the result to a DataFrame and create a new Plotly visualization
         columns = ['id', 'vintage_name', 'ratings_average', 'year', 'price_euros', 'ratings_count', 'url']
         df = pd.DataFrame(result, columns=columns)
+        # Filter and display only 10 results based on sliders
+        filtered_df = df[df['ratings_count'] >= count]
+        filtered_df = filtered_df[filtered_df['ratings_average'] >= min_ratings]
+        filtered_df = filtered_df[filtered_df['price_euros'] <= max_price]
         # Format the 'id' and 'year' columns as integers
         df['id'] = df['id'].apply(lambda x: int(x))
         df['year'] = df['year'].apply(lambda x: int(x) if isinstance(x, str) and x.isdigit() else x)
         fig = px.bar(df, x='vintage_name', y='ratings_average')
-        st.dataframe(df.head(10))
+        st.dataframe(filtered_df.head(10))
     elif query_option == "Wines with taste keywords":
         result = query_wines_with_taste_keywords()
          # Convert the result to a DataFrame
