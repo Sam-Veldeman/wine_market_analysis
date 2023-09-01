@@ -122,18 +122,17 @@ def main():
         min_count = st.slider('Minimum Ratings Count', min_value=0.0, max_value=37000.0, step=100.0, value=30.0)
         min_ratings = st.slider('Minimum Ratings Average', min_value=0.0, max_value=5.0, step=0.1, value=4.4)
         max_price = st.slider('Maximum Price (Euros)', min_value=0, max_value=100, step=1, value=50)
-        result = query_highlight_10_wines(min_ratings, max_price, min_count)
+        result = query_highlight_10_wines(0, max_price, 0)  # Fetch all data initially
         # Convert the result to a DataFrame and create a new Plotly visualization
         columns = ['id', 'vintage_name', 'ratings_average', 'year', 'price_euros', 'ratings_count', 'url']
         df = pd.DataFrame(result, columns=columns)
-        # Filter and display only 10 results based on sliders
-        filtered_df = df[df['ratings_count'] >= min_count]
-        filtered_df = filtered_df[filtered_df['ratings_average'] >= min_ratings]
-        filtered_df = filtered_df[filtered_df['price_euros'] <= max_price]
-        # Format the 'id' and 'year' columns as integers
-        df['id'] = df['id'].apply(lambda x: int(x))
-        df['year'] = df['year'].apply(lambda x: int(x) if isinstance(x, str) and x.isdigit() else x)
-        fig = px.bar(df, x='vintage_name', y='ratings_average')
+        # Filter the data based on slider values
+        filtered_df = df[
+            (df['ratings_count'] >= min_count) &
+            (df['ratings_average'] >= min_ratings) &
+            (df['price_euros'] <= max_price)
+        ]
+        # Display only the first 10 rows
         st.dataframe(filtered_df.head(10))
     elif query_option == "Wines with taste keywords":
         result = query_wines_with_taste_keywords()
