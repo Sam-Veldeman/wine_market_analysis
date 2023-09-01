@@ -174,7 +174,7 @@ def main():
         image_path = './output/FocusOnArgentina.png'
         st.image(image_path, use_column_width=True)
     # Small text at the bottom
-    st.markdown("""<p style='text-align: right; font-size: small;'>By César, Fré and Sam</p>""", unsafe_allow_html=True)
+    st.markdown("""<p style='text-align: right; font-size: small;'>By César Mendoza, Fré Van Oers and Sam Veldeman</p>""", unsafe_allow_html=True)
 
     # Close the database connection
     conn.close()
